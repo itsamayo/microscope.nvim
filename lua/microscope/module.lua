@@ -4,10 +4,10 @@ function M.fold_except_highlighted()
   local cur_buf = vim.api.nvim_get_current_buf()
 
   -- Ensure we're operating in visual mode
-  if vim.fn.mode() ~= "v" and vim.fn.mode() ~= "V" then
-    vim.notify("This function must be used in visual mode.", vim.log.levels.WARN)
-    return
-  end
+  --if vim.fn.mode() ~= "v" and vim.fn.mode() ~= "V" then
+  -- vim.notify("This function must be used in visual mode.", vim.log.levels.WARN)
+  --return
+  --end
 
   -- Get the start and end positions of the visual selection
   local start_pos = vim.fn.getpos("'<") -- Start mark
