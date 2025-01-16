@@ -24,11 +24,6 @@ function M.fold_except_highlighted()
   end
 end
 
-function M.unfold_all()
-  -- Unfold all folds in the buffer
-  vim.cmd("normal! zR")
-end
-
 -- Default keymaps
 function M.setup_keymaps()
   -- Key mapping for visual mode
@@ -36,12 +31,6 @@ function M.setup_keymaps()
     "x",
     "<leader>fg",
     ":<C-u>lua require('microscope.module').fold_except_highlighted()<CR>",
-    { noremap = true, silent = true }
-  )
-  vim.api.nvim_set_keymap(
-    "x",
-    "<leader>fv",
-    ":<C-u>lua require('microscope.module').unfold_all()<CR>",
     { noremap = true, silent = true }
   )
 end
