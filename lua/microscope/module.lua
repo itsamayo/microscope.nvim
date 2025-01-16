@@ -26,13 +26,13 @@ function M.setup_keymaps()
   vim.api.nvim_set_keymap(
     "n",
     "<leader>fg",
-    ":lua require('fold_highlighted').fold_except_highlighted()<CR>",
+    ":lua require('microscope.module').fold_except_highlighted()<CR>",
     { noremap = true, silent = true }
   )
   vim.api.nvim_set_keymap(
     "n",
     "<leader>fv",
-    ":lua require('fold_highlighted').unfold_all()<CR>",
+    ":lua require('microscope.module').unfold_all()<CR>",
     { noremap = true, silent = true }
   )
 end
