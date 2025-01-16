@@ -19,14 +19,15 @@ Add the following to your `lazy.nvim` configuration:
 ```lua
 {
   "itsamayo/microscope.nvim",
-  config = function()
-    require("microscope").setup()
-
-    -- Optional keymap
-    vim.keymap.set({ "x" }, "<leader>fg", function()
-        require('microscope.module').fold_except_highlighted()
-    end, { desc = "Microscope: fold all lines except the highlighted range" })
-  end
+    config = function()
+      require("microscope.module").setup {
+        -- This is optional, fg is the default, replace fa with your desired binding
+        -- Note that this is in visual mode
+        keymaps = {
+          fold = "<leader>fa",
+        },
+      }
+    end,
 }
 ```
 
