@@ -20,7 +20,7 @@ Add the following to your `lazy.nvim` configuration:
 {
   "itsamayo/microscope.nvim",
   config = function()
-    require("micropscope").setup()
+    require("microscope").setup()
   end
 }
 ```
