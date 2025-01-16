@@ -7,8 +7,8 @@ A Neovim plugin to focus in on selected code by folding all unhighlighted code.
 - Fold all surrounding code while keeping the highlighted lines visible.
 - Supports multiple languages via Neovim's Tree-sitter integration.
 - Easy-to-use default key mappings:
-  - `:MSFold`: Fold surrounding code.
-  - Use built in Neovim unfold all in normal mode: `zR`
+  - `:MSFold`: Fold surrounding code. Default binding is `<leader>fg` but can be rebound
+  - Use built in Neovim unfold all in normal mode: `zE`
 
 ## Installation
 
