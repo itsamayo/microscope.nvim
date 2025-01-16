@@ -8,7 +8,6 @@ function M.fold_except_highlighted()
   -- vim.notify("This function must be used in visual mode.", vim.log.levels.WARN)
   --return
   --end
-
   -- Get the start and end positions of the visual selection
   local start_pos = vim.fn.getpos("'<") -- Start mark
   local end_pos = vim.fn.getpos("'>") -- End mark
@@ -22,13 +21,13 @@ function M.fold_except_highlighted()
 
   -- Fold lines before the selection (if any)
   if start_row > 1 then
-    vim.cmd(start_row - 1 .. "fold")
+    vim.cmd("1," .. (start_row - 1) .. "fold")
   end
 
   -- Fold lines after the selection (if any)
   local total_lines = vim.api.nvim_buf_line_count(cur_buf)
   if end_row < total_lines then
-    vim.cmd(end_row + 1 .. "," .. total_lines .. "fold")
+    vim.cmd((end_row + 1) .. "," .. total_lines .. "fold")
   end
 end
 
