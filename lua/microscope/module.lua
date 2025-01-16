@@ -1,14 +1,15 @@
 local M = {}
 local function get_visual_selection()
-  -- Get current buffer
+  -- Ensure we're in visual mode and get the current buffer
   local cur_buf = vim.api.nvim_get_current_buf()
 
-  -- Get the start and end positions of the visual selection
-  local start_pos = vim.fn.getpos("'<")
-  local end_pos = vim.fn.getpos("'>")
+  -- Get the visual selection marks dynamically
+  local start_pos = vim.fn.getpos("v") -- Start of the visual selection
+  local end_pos = vim.fn.getpos(".") -- End of the visual selection
 
-  -- Convert from 1-based line and column to Lua's 1-based indexing
-  local start_row, end_row = start_pos[2], end_pos[2]
+  -- Order the rows correctly in case of reverse selection
+  local start_row = math.min(start_pos[2], end_pos[2])
+  local end_row = math.max(start_pos[2], end_pos[2])
 
   return cur_buf, start_row, end_row
 end
@@ -30,6 +31,9 @@ function M.fold_except_highlighted()
   if end_row < total_lines then
     vim.cmd((end_row + 1) .. "," .. total_lines .. "fold")
   end
+
+  -- Clear visual mode to reset any lingering marks
+  vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, false, true), "x", false)
 end
 
 -- Default keymaps
