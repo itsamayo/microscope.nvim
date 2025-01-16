@@ -10,16 +10,17 @@ function M.fold_except_highlighted()
   local start_row, end_row = start_pos[1] - 1, end_pos[1] - 1
 
   -- Ensure fold method is set to manual
-  vim.api.nvim_set_option("foldmethod", "manual")
+  vim.o.foldmethod = "manual"
 
-  -- Unfold all first
+  -- Open all folds first
   vim.cmd("normal! zR")
 
   -- Iterate through all lines in the buffer
-  for line = 0, vim.api.nvim_buf_line_count(cur_buf) - 1 do
+  local total_lines = vim.api.nvim_buf_line_count(cur_buf)
+  for line = 0, total_lines - 1 do
     if line < start_row or line > end_row then
-      -- Create folds for lines outside the visual selection
-      vim.cmd(line + 1 .. "," .. line + 1 .. "fold")
+      -- Fold lines outside the selected range
+      vim.cmd((line + 1) .. "," .. (line + 1) .. "fold")
     end
   end
 end
