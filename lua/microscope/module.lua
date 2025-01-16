@@ -1,20 +1,26 @@
 local M = {}
 
 function M.fold_except_highlighted()
-  -- Get the current visual selection range
-  local start_line, _, end_line, _ = unpack(vim.fn.getpos("'<")), unpack(vim.fn.getpos("'>"))
-  start_line = math.max(1, start_line)
-  end_line = math.min(vim.fn.line("$"), end_line)
+  local cur_buf = vim.api.nvim_get_current_buf()
 
-  -- Set foldmethod to manual to ensure compatibility
+  -- Get the start and end positions of the visual selection
+  local start_pos = vim.api.nvim_buf_get_mark(cur_buf, "<")
+  local end_pos = vim.api.nvim_buf_get_mark(cur_buf, ">")
+
+  local start_row, end_row = start_pos[1], end_pos[1] -- 1-based indexing
+
+  -- Ensure fold method is set to manual
   vim.o.foldmethod = "manual"
 
-  -- Close all folds first
-  vim.cmd("silent! normal! zM")
+  -- Fold lines before the selection (if any)
+  if start_row > 1 then
+    vim.cmd("1," .. start_row - 1 .. "fold")
+  end
 
-  -- Re-open folds only for the selected range
-  for i = start_line, end_line do
-    vim.cmd(i .. "foldopen!")
+  -- Fold lines after the selection (if any)
+  local total_lines = vim.api.nvim_buf_line_count(cur_buf)
+  if end_row < total_lines then
+    vim.cmd(end_row + 1 .. "," .. total_lines .. "fold")
   end
 end
 
