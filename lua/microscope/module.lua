@@ -7,17 +7,18 @@ local function get_visual_selection()
   local start_pos = vim.fn.getpos("'<")
   local end_pos = vim.fn.getpos("'>")
 
-  -- Convert from 1-based line and column to Lua's 1-based indexing
-  local start_row, end_row = start_pos[2], end_pos[2]
+  -- Convert from Vim's 1-based indexing
+  local start_row = math.min(start_pos[2], end_pos[2])
+  local end_row = math.max(start_pos[2], end_pos[2])
 
   return cur_buf, start_row, end_row
 end
 
 function M.fold_except_highlighted()
-  -- Ensure fold method is manual
+  -- Ensure fold method is set to manual
   vim.o.foldmethod = "manual"
 
-  -- Get fresh visual selection
+  -- Get the visual selection range
   local cur_buf, start_row, end_row = get_visual_selection()
 
   -- Fold lines before the selection
@@ -31,7 +32,8 @@ function M.fold_except_highlighted()
     vim.cmd((end_row + 1) .. "," .. total_lines .. "fold")
   end
 
-  vim.api.nvim_feedkeys("\027", "xt", false)
+  -- Clear the visual selection (if necessary)
+  vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, false, true), "x", false)
 end
 
 -- Default keymaps
