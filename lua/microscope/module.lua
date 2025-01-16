@@ -1,46 +1,32 @@
 local M = {}
+local util = require("vim.lsp.util")
 
 function M.fold_except_highlighted()
   local cur_buf = vim.api.nvim_get_current_buf()
 
-  -- Ensure we're in visual mode
-
-  -- Reapply visual selection to ensure marks are updated
-  vim.cmd("normal! gv")
-
-  -- Get the refreshed start and end positions of the visual selection
-  local start_pos = vim.api.nvim_buf_get_mark(cur_buf, "<")
-  local end_pos = vim.api.nvim_buf_get_mark(cur_buf, ">")
-
-  -- Convert marks to 1-based line numbers
-  local start_row = start_pos[1]
-  local end_row = end_pos[1]
-
-  -- Validate the selection range
-  if start_row == 0 or end_row == 0 then
-    vim.notify("Invalid selection range.", vim.log.levels.ERROR)
-    return
-  end
-
   -- Ensure fold method is set to manual
   vim.o.foldmethod = "manual"
 
-  -- Fold lines before the selection (if any)
+  -- Get the visual selection range using LSP utilities
+  local range_params = util.make_given_range_params(nil, nil, cur_buf)
+  if not range_params or not range_params.range then
+    vim.notify("Could not determine visual selection range.", vim.log.levels.ERROR)
+    return
+  end
+
+  local start_row = range_params.range.start.line + 1 -- Convert 0-based to 1-based
+  local end_row = range_params.range["end"].line + 1 -- Convert 0-based to 1-based
+
+  -- Fold lines before the selection
   if start_row > 1 then
     vim.cmd("1," .. (start_row - 1) .. "fold")
   end
 
-  -- Fold lines after the selection (if any)
+  -- Fold lines after the selection
   local total_lines = vim.api.nvim_buf_line_count(cur_buf)
   if end_row < total_lines then
     vim.cmd((end_row + 1) .. "," .. total_lines .. "fold")
   end
-
-  -- Ensure the selection remains unfolded
-  --vim.cmd(start_row .. "," .. end_row .. "foldopen")
-
-  -- Clear visual selection to avoid confusion
-  vim.cmd("normal! \27")
 end
 
 -- Default keymaps
