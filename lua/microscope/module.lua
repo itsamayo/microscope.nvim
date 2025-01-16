@@ -3,18 +3,26 @@ local M = {}
 function M.fold_except_highlighted()
   local cur_buf = vim.api.nvim_get_current_buf()
 
-  -- Get the start and end positions of the visual selection
-  local start_pos = vim.api.nvim_buf_get_mark(cur_buf, "<")
-  local end_pos = vim.api.nvim_buf_get_mark(cur_buf, ">")
+  -- Ensure we're operating in visual mode
+  if vim.fn.mode() ~= "v" and vim.fn.mode() ~= "V" then
+    vim.notify("This function must be used in visual mode.", vim.log.levels.WARN)
+    return
+  end
 
-  local start_row, end_row = start_pos[1], end_pos[1] -- 1-based indexing
+  -- Get the start and end positions of the visual selection
+  local start_pos = vim.fn.getpos("'<") -- Start mark
+  local end_pos = vim.fn.getpos("'>") -- End mark
+
+  -- Convert marks to 1-based line numbers
+  local start_row = start_pos[2]
+  local end_row = end_pos[2]
 
   -- Ensure fold method is set to manual
   vim.o.foldmethod = "manual"
 
   -- Fold lines before the selection (if any)
   if start_row > 1 then
-    vim.cmd("1," .. start_row - 1 .. "fold")
+    vim.cmd(start_row - 1 .. "fold")
   end
 
   -- Fold lines after the selection (if any)
