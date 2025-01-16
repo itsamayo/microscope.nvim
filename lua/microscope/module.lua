@@ -26,6 +26,9 @@ end
 
 function M.setup(opts)
   opts = opts or {}
+  if opts.keymaps ~= false then
+    M.setup_keymaps()
+  end
 end
 
 return M
