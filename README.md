@@ -18,9 +18,9 @@ Add the following to your `lazy.nvim` configuration:
 
 ```lua
 {
-  "your-username/fold-highlighted.nvim",
+  "itsamyo/microscope.nvim",
   config = function()
-    require("fold_highlighted").setup()
+    require("micropscope").setup()
   end
 }
 ```
@@ -31,9 +31,9 @@ Add the following to your `packer.nvim` configuration:
 
 ```lua
 use {
-  "your-username/fold-highlighted.nvim",
+  "itsamayo/microscope.nvim",
   config = function()
-    require("fold_highlighted").setup()
+    require("microscope").setup()
   end
 }
 
