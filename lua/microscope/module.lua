@@ -8,6 +8,9 @@ function M.fold_except_highlighted()
   -- vim.notify("This function must be used in visual mode.", vim.log.levels.WARN)
   --return
   --end
+  -- Force refresh of visual selection marks
+  vim.cmd("normal! gv")
+
   -- Get the start and end positions of the visual selection
   local start_pos = vim.fn.getpos("'<") -- Start mark
   local end_pos = vim.fn.getpos("'>") -- End mark
