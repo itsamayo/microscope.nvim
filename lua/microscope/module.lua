@@ -12,14 +12,18 @@ function M.fold_except_highlighted()
   -- Ensure fold method is set to manual
   vim.o.foldmethod = "manual"
 
-  -- Create a fold for all lines in the buffer
+  -- Fold lines before the selection (if any)
+  if start_row > 1 then
+    vim.cmd("1," .. start_row - 1 .. "fold")
+  end
+
+  -- Fold lines after the selection (if any)
   local total_lines = vim.api.nvim_buf_line_count(cur_buf)
-  vim.cmd("1," .. total_lines .. "fold")
+  if end_row < total_lines then
+    vim.cmd(end_row + 1 .. "," .. total_lines .. "fold")
+  end
 
-  -- Close all folds
-  vim.cmd("normal! zM")
-
-  -- Unfold only the highlighted lines
+  -- Unfold the selected range to ensure it stays visible
   vim.cmd(start_row .. "," .. end_row .. "foldopen")
 end
 
