@@ -31,8 +31,7 @@ function M.fold_except_highlighted()
     vim.cmd((end_row + 1) .. "," .. total_lines .. "fold")
   end
 
-  -- Clear visual mode to reset any lingering marks
-  vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, false, true), "x", false)
+  vim.api.nvim_feedkeys("\027", "xt", false)
 end
 
 -- Default keymaps
