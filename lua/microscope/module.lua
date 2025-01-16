@@ -23,16 +23,17 @@ end
 
 -- Default keymaps
 function M.setup_keymaps()
+  -- Key mapping for visual mode
   vim.api.nvim_set_keymap(
-    "n",
+    "x",
     "<leader>fg",
-    ":lua require('microscope.module').fold_except_highlighted()<CR>",
+    ":<C-u>lua require('microscope.module').fold_except_highlighted()<CR>",
     { noremap = true, silent = true }
   )
   vim.api.nvim_set_keymap(
-    "n",
+    "x",
     "<leader>fv",
-    ":lua require('microscope.module').unfold_all()<CR>",
+    ":<C-u>lua require('microscope.module').unfold_all()<CR>",
     { noremap = true, silent = true }
   )
 end
