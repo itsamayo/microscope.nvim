@@ -7,31 +7,20 @@ function M.fold_except_highlighted()
   local start_pos = vim.api.nvim_buf_get_mark(cur_buf, "<")
   local end_pos = vim.api.nvim_buf_get_mark(cur_buf, ">")
 
-  local start_row, end_row = start_pos[1] - 1, end_pos[1] - 1
+  local start_row, end_row = start_pos[1], end_pos[1] -- 1-based indexing
 
   -- Ensure fold method is set to manual
   vim.o.foldmethod = "manual"
 
-  -- Unfold all first to reset any existing folds
-  vim.cmd("normal! zR")
+  -- Fold the entire buffer
+  vim.cmd("normal! zM")
 
-  -- Fold the highlighted range explicitly
-  vim.cmd(start_row + 1 .. "," .. end_row + 1 .. "fold")
-
-  -- Fold all lines outside the highlighted range
-  local total_lines = vim.api.nvim_buf_line_count(cur_buf)
-  for line = 0, total_lines - 1 do
-    if line < start_row or line > end_row then
-      vim.cmd((line + 1) .. "," .. (line + 1) .. "fold")
-    end
-  end
-
-  -- Unfold the highlighted range to ensure it's visible
-  vim.cmd(start_row + 1 .. "," .. end_row + 1 .. "foldopen")
+  -- Unfold only the highlighted lines
+  vim.cmd(start_row .. "," .. end_row .. "foldopen")
 end
 
 function M.unfold_all()
-  -- Unfold all folds
+  -- Unfold all folds in the buffer
   vim.cmd("normal! zR")
 end
 
