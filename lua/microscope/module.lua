@@ -4,8 +4,8 @@ local function get_visual_selection()
   local cur_buf = vim.api.nvim_get_current_buf()
 
   -- Get the start and end positions of the visual selection
-  local start_pos = vim.fn.getpos("'<")
-  local end_pos = vim.fn.getpos("'>")
+  local start_pos = vim.fn.getpos("v")
+  local end_pos = vim.fn.getpos(".")
 
   -- Convert from 1-based line and column to Lua's 1-based indexing
   local start_row, end_row = start_pos[2], end_pos[2]
