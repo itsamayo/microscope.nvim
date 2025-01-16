@@ -18,7 +18,7 @@ Add the following to your `lazy.nvim` configuration:
 
 ```lua
 {
-  "itsamyo/microscope.nvim",
+  "itsamayo/microscope.nvim",
   config = function()
     require("micropscope").setup()
   end
