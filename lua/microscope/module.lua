@@ -1,25 +1,32 @@
 local M = {}
 
 function M.fold_except_highlighted()
-  vim.cmd("normal! zR") -- Open all folds first
   local cur_buf = vim.api.nvim_get_current_buf()
+
+  -- Get the start and end positions of the visual selection
   local start_pos = vim.api.nvim_buf_get_mark(cur_buf, "<")
   local end_pos = vim.api.nvim_buf_get_mark(cur_buf, ">")
 
   local start_row, end_row = start_pos[1] - 1, end_pos[1] - 1
 
-  -- Iterate over all lines in the buffer
+  -- Ensure fold method is set to manual
+  vim.api.nvim_set_option("foldmethod", "manual")
+
+  -- Unfold all first
+  vim.cmd("normal! zR")
+
+  -- Iterate through all lines in the buffer
   for line = 0, vim.api.nvim_buf_line_count(cur_buf) - 1 do
     if line < start_row or line > end_row then
-      -- Set the fold level for lines outside the selected range
-      vim.api.nvim_buf_set_lines(cur_buf, line, line + 1, false, { "{{{" })
-      vim.cmd(line + 1 .. "foldclose")
+      -- Create folds for lines outside the visual selection
+      vim.cmd(line + 1 .. "," .. line + 1 .. "fold")
     end
   end
 end
 
 function M.unfold_all()
-  vim.cmd("normal! zR") -- Unfold everything
+  -- Unfold all folds
+  vim.cmd("normal! zR")
 end
 
 -- Default keymaps
