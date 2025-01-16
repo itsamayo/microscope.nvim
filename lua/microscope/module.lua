@@ -3,21 +3,24 @@ local M = {}
 function M.fold_except_highlighted()
   local cur_buf = vim.api.nvim_get_current_buf()
 
-  -- Ensure we're operating in visual mode
-  --if vim.fn.mode() ~= "v" and vim.fn.mode() ~= "V" then
-  -- vim.notify("This function must be used in visual mode.", vim.log.levels.WARN)
-  --return
-  --end
-  -- Force refresh of visual selection marks
+  -- Ensure we're in visual mode
+
+  -- Reapply visual selection to ensure marks are updated
   vim.cmd("normal! gv")
 
-  -- Get the start and end positions of the visual selection
-  local start_pos = vim.fn.getpos("'<") -- Start mark
-  local end_pos = vim.fn.getpos("'>") -- End mark
+  -- Get the refreshed start and end positions of the visual selection
+  local start_pos = vim.api.nvim_buf_get_mark(cur_buf, "<")
+  local end_pos = vim.api.nvim_buf_get_mark(cur_buf, ">")
 
   -- Convert marks to 1-based line numbers
-  local start_row = start_pos[2]
-  local end_row = end_pos[2]
+  local start_row = start_pos[1]
+  local end_row = end_pos[1]
+
+  -- Validate the selection range
+  if start_row == 0 or end_row == 0 then
+    vim.notify("Invalid selection range.", vim.log.levels.ERROR)
+    return
+  end
 
   -- Ensure fold method is set to manual
   vim.o.foldmethod = "manual"
@@ -32,6 +35,12 @@ function M.fold_except_highlighted()
   if end_row < total_lines then
     vim.cmd((end_row + 1) .. "," .. total_lines .. "fold")
   end
+
+  -- Ensure the selection remains unfolded
+  --vim.cmd(start_row .. "," .. end_row .. "foldopen")
+
+  -- Clear visual selection to avoid confusion
+  vim.cmd("normal! \27")
 end
 
 -- Default keymaps
