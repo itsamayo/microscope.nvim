@@ -22,9 +22,6 @@ function M.fold_except_highlighted()
   if end_row < total_lines then
     vim.cmd(end_row + 1 .. "," .. total_lines .. "fold")
   end
-
-  -- Unfold the selected range to ensure it stays visible
-  vim.cmd(start_row .. "," .. end_row .. "foldopen")
 end
 
 function M.unfold_all()
