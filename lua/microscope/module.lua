@@ -33,7 +33,7 @@ function M.setup_keymaps(keymaps)
     "x",
     keymaps.fold or "<leader>fg", -- Allow user to specify their own keymap
     ":<C-u>lua require('microscope.module').fold_except_highlighted()<CR>",
-    { noremap = true, silent = true }
+    { noremap = true, silent = true, desc = "Microscope: fold all lines except the highlighted range" }
   )
 end
 
