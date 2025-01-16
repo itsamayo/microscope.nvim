@@ -1,6 +1,5 @@
 local M = {}
 
--- Fold all code except highlighted
 function M.fold_except_highlighted()
   vim.cmd("normal! zR") -- Open all folds first
   local cur_buf = vim.api.nvim_get_current_buf()
@@ -9,14 +8,16 @@ function M.fold_except_highlighted()
 
   local start_row, end_row = start_pos[1] - 1, end_pos[1] - 1
 
+  -- Iterate over all lines in the buffer
   for line = 0, vim.api.nvim_buf_line_count(cur_buf) - 1 do
     if line < start_row or line > end_row then
-      vim.fn.setfoldlevel(line + 1, 0) -- Fold lines outside the visual range
+      -- Set the fold level for lines outside the selected range
+      vim.api.nvim_buf_set_lines(cur_buf, line, line + 1, false, { "{{{" })
+      vim.cmd(line + 1 .. "foldclose")
     end
   end
 end
 
--- Unfold all
 function M.unfold_all()
   vim.cmd("normal! zR") -- Unfold everything
 end
