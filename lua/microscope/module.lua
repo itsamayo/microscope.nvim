@@ -25,11 +25,13 @@ function M.fold_except_highlighted()
 end
 
 -- Default keymaps
-function M.setup_keymaps()
-  -- Key mapping for visual mode
+function M.setup_keymaps(keymaps)
+  keymaps = keymaps or {}
+
+  -- Default keymap for visual mode to fold
   vim.api.nvim_set_keymap(
     "x",
-    "<leader>fg",
+    keymaps.fold or "<leader>fg", -- Allow user to specify their own keymap
     ":<C-u>lua require('microscope.module').fold_except_highlighted()<CR>",
     { noremap = true, silent = true }
   )
@@ -37,8 +39,10 @@ end
 
 function M.setup(opts)
   opts = opts or {}
+
+  -- Set up keymaps only if they aren't disabled
   if opts.keymaps ~= false then
-    M.setup_keymaps()
+    M.setup_keymaps(opts.keymaps) -- Use the keymaps passed in the options
   end
 end
 
