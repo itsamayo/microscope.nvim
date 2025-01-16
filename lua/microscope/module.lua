@@ -1,21 +1,24 @@
 local M = {}
-local util = require("vim.lsp.util")
-
-function M.fold_except_highlighted()
+local function get_visual_selection()
+  -- Get current buffer
   local cur_buf = vim.api.nvim_get_current_buf()
 
-  -- Ensure fold method is set to manual
+  -- Get the start and end positions of the visual selection
+  local start_pos = vim.fn.getpos("'<")
+  local end_pos = vim.fn.getpos("'>")
+
+  -- Convert from 1-based line and column to Lua's 1-based indexing
+  local start_row, end_row = start_pos[2], end_pos[2]
+
+  return cur_buf, start_row, end_row
+end
+
+function M.fold_except_highlighted()
+  -- Ensure fold method is manual
   vim.o.foldmethod = "manual"
 
-  -- Get the visual selection range using LSP utilities
-  local range_params = util.make_given_range_params(nil, nil, cur_buf)
-  if not range_params or not range_params.range then
-    vim.notify("Could not determine visual selection range.", vim.log.levels.ERROR)
-    return
-  end
-
-  local start_row = range_params.range.start.line + 1 -- Convert 0-based to 1-based
-  local end_row = range_params.range["end"].line + 1 -- Convert 0-based to 1-based
+  -- Get fresh visual selection
+  local cur_buf, start_row, end_row = get_visual_selection()
 
   -- Fold lines before the selection
   if start_row > 1 then
