@@ -8,7 +8,6 @@ A Neovim plugin to focus in on selected code by folding all unhighlighted code.
 - Supports multiple languages via Neovim's Tree-sitter integration.
 - Easy-to-use default key mappings:
   - `<leader>fg`: Fold surrounding code.
-  - `<leader>fv`: Unfold all code.
 
 ## Installation
 
