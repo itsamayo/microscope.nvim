@@ -3,7 +3,7 @@
 A Neovim plugin to focus in on selected code by folding all unhighlighted code.
 
 ### Unfocused
-![Screenshot 2025-01-16 at 5 26 47 PM](https://github.com/user-attachments/assets/7c3a8625-40d6-4316-9150-967616ad667d)
+![Screenshot 2025-01-16 at 5 36 10 PM](https://github.com/user-attachments/assets/4599b5d5-c106-44ce-9a27-8dd312e71e62)
 
 ### Focused
 ![Screenshot 2025-01-16 at 5 27 34 PM](https://github.com/user-attachments/assets/57c639f0-f368-44ca-bddb-e14bb4ca18f5)
