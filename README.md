@@ -11,15 +11,14 @@ A Neovim plugin to focus in on selected code by folding all unhighlighted code, 
 ![Folding](https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExeWtodmNwZmdwazBzMzUxejRoenJzZzZlbHVxa3FkZDR5aWFxanBrbiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/d2SrFLxqNGla8Oj4Jz/giphy.gif)
 
 ### Live Grep the word at current cursor position
-  - Default binding is `<leader>fv` but can be rebound (see below for remapping)
   - Uses Telescope Live Grep
-- Supports multiple languages via Neovim's Tree-sitter integration.
+  - Default binding is `<leader>fv` but can be rebound (see below for remapping)
 
 ![Grepping](https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExNWh4aTI1cDQ4cDVmYzFranVnODVyaWp1bzg1a29janR4MnR1NnAxcSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/KVX2Ik198vd35ZASXD/giphy.gif)
 
 ## Installation
 
-### Using `lazy.nvim`
+## Using `lazy.nvim`
 
 Add the following to your `lazy.nvim` configuration:
 
@@ -39,7 +38,7 @@ Add the following to your `lazy.nvim` configuration:
 }
 ```
 
-### Using `packer.nvim`
+## Using `packer.nvim`
 
 Add the following to your `packer.nvim` configuration:
 
