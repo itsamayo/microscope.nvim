@@ -39,11 +39,16 @@ end
 -- Helper to get the word under the cursor
 local function get_word_under_cursor()
   local line = vim.api.nvim_get_current_line()
-  local col = vim.api.nvim_win_get_cursor(0)[2]
-  local start_idx, end_idx = line:find("%w+", col + 1)
-  if start_idx and end_idx then
-    return line:sub(start_idx, end_idx)
+  local col = vim.api.nvim_win_get_cursor(0)[2] + 1 -- Adjust to Lua's 1-based indexing
+
+  -- Start looking for the start and end of the word
+  local start_idx = line:sub(1, col):find("%w+$") -- Find the last word ending at or before the cursor
+  local end_idx = line:find("%W", col) or (#line + 1) -- Find the first non-word character after the cursor
+
+  if start_idx then
+    return line:sub(start_idx, end_idx - 1)
   end
+
   return nil
 end
 
