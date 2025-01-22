@@ -36,6 +36,36 @@ function M.fold_except_highlighted()
   vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, false, true), "x", false)
 end
 
+-- Helper to get the word under the cursor
+local function get_word_under_cursor()
+  local line = vim.api.nvim_get_current_line()
+  local col = vim.api.nvim_win_get_cursor(0)[2]
+  local start_idx, end_idx = line:find("%w+", col + 1)
+  if start_idx and end_idx then
+    return line:sub(start_idx, end_idx)
+  end
+  return nil
+end
+
+-- Command to copy the word and open live grep
+function M.grep_word_under_cursor()
+  -- Get the word under the cursor
+  local word = get_word_under_cursor()
+  if not word then
+    print("No word under the cursor")
+    return
+  end
+
+  -- Use Telescope's live grep with pre-filled input
+  local ok, telescope_builtin = pcall(require, "telescope.builtin")
+  if not ok then
+    print("Telescope is not installed")
+    return
+  end
+
+  telescope_builtin.live_grep({ default_text = word })
+end
+
 -- Default keymaps
 function M.setup_keymaps(keymaps)
   keymaps = keymaps or {}
@@ -46,6 +76,14 @@ function M.setup_keymaps(keymaps)
     keymaps.fold or "<leader>fg", -- Allow user to specify their own keymap
     ":<C-u>lua require('microscope.module').fold_except_highlighted()<CR>",
     { noremap = true, silent = true, desc = "Microscope: fold all lines except the highlighted range" }
+  )
+
+  -- Default keymap for grepping word under cursor
+  vim.api.nvim_set_keymap(
+    "n",
+    keymaps.grep or "<leader>fv",
+    ":lua require('microscope.module').grep_word_under_cursor()<CR>",
+    { noremap = true, silent = true, desc = "Microscope: live grep word under cursor" }
   )
 end
 
