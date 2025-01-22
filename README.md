@@ -5,7 +5,7 @@ A Neovim plugin to focus in on selected code by folding all unhighlighted code, 
 ## Features
 
 ### Fold all surrounding code while keeping the highlighted lines visible.
-  - you can use the built in unfold all `zE` to reset
+  - You can use the built in unfold all `zE` to reset
   - Default binding is `<leader>fg` but can be rebound (see below for remapping)
 
 ![Folding](https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExeWtodmNwZmdwazBzMzUxejRoenJzZzZlbHVxa3FkZDR5aWFxanBrbiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/d2SrFLxqNGla8Oj4Jz/giphy.gif)
